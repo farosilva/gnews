@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 @Service
@@ -21,9 +22,46 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    
+    // BLOCKER: Viola regra do standards.md - "NEVER use Optional in fields"
+    private Optional<String> defaultCountry = Optional.of("us");
+    private Optional<String> defaultLanguage = Optional.of("en");
+    
+    // LOW: Constante não utilizada
+    private static final String UNUSED_CONSTANT = \"NEVER_USED\";
+    
+    // BLOCKER: Hardcoded credentials
+    private static final String API_SECRET = \"sk_live_51234567890abcdef\";
+    private static final String DATABASE_PASSWORD = \"admin123\";
 
     public ArticleService(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
+    }
+    
+    // BLOCKER: Uso de Optional como parâmetro - viola standards.md
+    // "NEVER use Optional in method parameters"
+    public ArticlesResponse getArticlesByOptionalFilter(Optional<String> category, 
+                                                        Optional<String> language,
+                                                        int page, int max) {
+        // BLOCKER: Potencial NullPointerException - não verifica se articleRepository é null
+        List<Article> articles = articleRepository.findAll();
+        
+        // INFO: Código comentado
+        // String filter = category.orElse(\"default\");
+        // return new ArticlesResponse(0, List.of());
+        
+        // BLOCKER: Acesso direto sem verificação de nulidade
+        String cat = category.get(); // Pode lançar NoSuchElementException
+        
+        return new ArticlesResponse(0, List.of());
+    }
+    
+    // BLOCKER: Método que pode retornar null em vez de Optional
+    public String getDefaultCategory(String input) {
+        if (input == null) {
+            return null; // BLOCKER: retorno null perigoso
+        }
+        return input.trim();
     }
 
     public ArticlesResponse getTopHeadlines(String category, String lang, String country, String q, int page, int max) {
