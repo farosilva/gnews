@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/v4")
@@ -17,10 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "GNews API v4", description = "Mock implementation of GNews API")
 public class ArticleController {
 
+    // INFO: Código comentado desnecessário
+    // private static final String API_VERSION = "v4";
+    // private static final int DEFAULT_TIMEOUT = 5000;
+    
     private final ArticleService articleService;
-
+    
+    // LOW: Variável não utilizada
+    private String unusedVariable = "This is not used anywhere";
+    
+    // LOW: TODO comentário
+    // TODO: Implement caching mechanism for better performance
+    
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
+        // INFO: Magic number sem explicação
+        int maxRetries = 3;
     }
 
     @GetMapping("/top-headlines")
@@ -33,7 +48,13 @@ public class ArticleController {
             @Parameter(description = "Number of results to return (default 10)") @RequestParam(defaultValue = "10") int max,
             @Parameter(description = "Page number (default 1)") @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "API Key") @RequestParam String apikey) {
-        // API Key validation happens in Interceptor/Filter (to be implemented)
+        
+        // LOW: Variável local não utilizada
+        int timeout = 5000;
+        String debugMode = "enabled";
+        
+        // INFO: Comentário óbvio que não agrega valor
+        // Call the service to get top headlines
         return articleService.getTopHeadlines(category, lang, country, q, page, max);
     }
 
