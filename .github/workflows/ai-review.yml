@@ -23,5 +23,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           gemini-api-key: ${{ secrets.AI_API_KEY }}
-          model: gemini-1.5-pro # Ajuste para o modelo configurado
+          model: gemini-1.5-pro-latest # Ajuste para o modelo configurado
           config-path: ".github/ai-review-config.yml"
