@@ -19,11 +19,11 @@ jobs:
           fetch-depth: 0
 
       - name: AI Reviewer
-        uses: truongnh1992/gemini-ai-code-reviewer@main
+        uses: username/ai-code-reviewer@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.AI_API_KEY }}
-          MODEL_NAME: gemini-2.5-pro # Ajuste para o modelo configurado
+          MODEL_NAME: gemini-1.5-pro # Ajuste para o modelo configurado
           PROMPT: |
             Aja como um Engenheiro de Segurança Sênior (DevSecOps). 
             Analise o DIFF deste Pull Request buscando:
